@@ -1,3 +1,8 @@
+//PROGRAM TO PRINT LETTER A AND B IN A BMP IMAGE MANUALLY
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
