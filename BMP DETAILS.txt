@@ -1,0 +1,158 @@
+The Bitmap (BMP) file format is a raster graphics  (image representation where an image is made up of a grid of individual pixels (picture elements)), each with its own color value image file format used to store bitmap digital images. It is a simple and widely supported format, especially on Windows platforms. BMP files are typically uncompressed, which makes them large in size but ensures high-quality images without loss of detail.
+
+WHY BMP--
+     Uncompressed: BMP files are often large because they store pixel data in an uncompressed or minimally compressed format. This can result in higher quality but larger file sizes.
+     Color Depth: BMP files can support a wide range of color depths, from 1-bit (black and white) to 24-bit (over 16 million colors), and even higher in certain cases.
+     Resolution: BMP files store information about the image's resolution, meaning they can contain high-quality images, but at the cost of large file sizes.
+
+BITMAP FILE HEADER
+
+    Contains metadata about the file, such as its size and where the pixel data starts.
+
+    Size: 14 bytes.
+
+    Fields:
+
+      -- bfType (2 bytes): Signature of the file, usually "BM" (0x424D in hexadecimal).(Description: This field contains the file signature, which is usually "BM" for a BMP file. It's used to identify    the file type as a Bitmap.
+Example: The field would store the value 0x42 0x4D, which corresponds to the ASCII codes for "B" (0x42) and "M" (0x4D).
+Hexadecimal Representation: 42 4D0
+
+------- bfSize (4 bytes): Total size of the file in bytes.(fSize (4 bytes)
+
+        (Description: This field contains the total size of the BMP file in bytes, including the header and pixel data.
+        Example: If the BMP file is 1024 bytes in total (including headers and pixel data), this field would store the value 0x00000400 (which is 1024 in hexadecimal).
+        Hexadecimal Representation: 00 00 04 00 (in little-endian order)(Little-endian: "Little end" (least significant byte) comes first.)
+     
+    
+------ bfReserved1 (2 bytes): Reserved, must be 0.
+       Description: This is a reserved field and must be set to 0. It's not used by the BMP format itself but is part of the header structure.
+       Example: This field would always store 0x0000.
+      Hexadecimal Representation: 00 00
+
+------ bfReserved2 (2 bytes): Reserved, must be 0.
+       Description: This is a reserved field and must be set to 0. It's not used by the BMP format itself but is part of the header structure.
+       Example: This field would always store 0x0000.
+       Hexadecimal Representation: 00 00
+
+----- bfOffBits (4 bytes): Offset from the start of the file to the pixel data.(bfOffBits (4 bytes)
+
+    Description: This field contains the offset (in bytes) from the start of the file to the beginning of the pixel data. The pixel data is the part of the file where the actual image begins. This value  tells software where to start reading the image data.
+    Example: If the bitmap header is 54 bytes (14 bytes for the Bitmap File Header and 40 bytes for the Bitmap Information Header), and the pixel data begins immediately after, bfOffBits would store the value 0x36 (which is 54 in hexadecimal). This indicates that the pixel data starts at byte 54 of the file.
+    Hexadecimal Representation: 36 00 00 00)
+
+BITMAP INFORMATION HEADER STRUCTURE (40 BYTES)
+
+----. biSize (4 bytes)
+
+    Description: This field specifies the size of the Bitmap Information Header itself. For a standard BMP file with a 40-byte header, this value is always 40 (0x28 in hexadecimal).
+    Example: 0x28 00 00 00 (which is 40 in decimal)
+    Hexadecimal Representation: 28 00 00 00
+
+--- biWidth (4 bytes)
+
+    Description: This field defines the width of the image in pixels. The width is the number of columns in the pixel grid.
+    Example: If the image is 800 pixels wide, this field would contain 0x320 (which is 800 in hexadecimal).
+    Hexadecimal Representation: 00 00 03 20 (for a width of 800 pixels)
+
+----biHeight (4 bytes)
+
+    Description: This field specifies the height of the image in pixels. The height is the number of rows in the pixel grid.
+    Example: If the image is 600 pixels high, this field would contain 0x258 (which is 600 in hexadecimal).
+    Hexadecimal Representation: 00 00 02 58 (for a height of 600 pixels)
+----biPlanes (2 bytes)
+
+    Description: This field indicates the number of color planes. It must always be set to 1 for BMP files. It's part of the standard BMP specification but isn't usually used in modern contexts.
+    Example: This value is typically 0x01 (1 plane).
+    Hexadecimal Representation: 01 00
+----biBitCount (2 bytes)
+
+    Description: This field specifies the number of bits per pixel (color depth). Common values include:
+        1 for monochrome (black and white)
+        8 for 256 colors (indexed color)
+        24 for 16.7 million colors (true color)
+    Example: If the image has 24-bit color depth, this field will contain 0x18 (24 in hexadecimal).
+    Hexadecimal Representation: 18 00 (for 24 bits per pixel)
+----. biCompression (4 bytes)
+
+    Description: This field specifies the compression method used for the image data. Common values are:
+        0 for no compression (raw, uncompressed BMP)
+        1 for 8-bit RLE (Run-Length Encoding) compression
+        2 for 4-bit RLE compression
+    Example: For an uncompressed BMP, this field would be 0x00 00 00 00.
+    Hexadecimal Representation: 00 00 00 00 (for no compression)
+------ biSizeImage (4 bytes)
+
+    Description: This field specifies the size of the image data in bytes. It is the number of bytes used for the pixel data. If the image is uncompressed, this is simply the width × height × color depth (in bytes).
+    Example: For an image that is 800x600 pixels with 24-bit color depth (3 bytes per pixel), the image data size would be 800 × 600 × 3 = 1,440,000 bytes.
+    Hexadecimal Representation: 00 16 00 00 (for 1,440,000 bytes)
+----biXPelsPerMeter (4 bytes)
+
+    Description: This field specifies the horizontal resolution of the image in pixels per meter. It is often used for printing purposes. The default value is usually 0, which means the resolution is unspecified.
+    Example: If the horizontal resolution is 100 pixels per meter, this field would contain 0x64 (100 in hexadecimal).
+    Hexadecimal Representation: 64 00 00 00
+-----biYPelsPerMeter (4 bytes)
+
+    Description: This field specifies the vertical resolution of the image in pixels per meter. Similar to the horizontal resolution, it is often used for printing purposes.
+    Example: If the vertical resolution is 100 pixels per meter, this field would contain 0x64 (100 in hexadecimal).
+    Hexadecimal Representation: 64 00 00 00
+----biClrUsed (4 bytes)
+
+    Description: This field specifies the number of colors used in the image. If the image uses 24-bit color (true color), this field is usually set to 0, meaning all 16.7 million colors are available.
+    Example: If the image uses all possible colors (true color), this field would be 0x00 00 00 00.
+-----biClrImportant (4 bytes)
+
+    Description: This field specifies the number of important colors used in the image. For images with a large color palette (like 24-bit images), this value is typically set to 0 because all colors are important.
+    Example: For true color images, this field would also be 0x00 00 00 00.
+    Hexadecimal Representation: 00 00 00 00
+
+
+
+EXAMPLE----
+
+
+    Width: 800 pixels
+    Height: 600 pixels
+    Color depth: 24 bits per pixel (True Color)
+    Compression: None (uncompressed)
+    Horizontal resolution: 100 pixels per meter
+    Vertical resolution: 100 pixels per meter
+
+The Bitmap Information Header would look like this (in hexadecimal format):
+
+28 00 00 00  00 00 03 20  00 00 02 58  01 00  18 00
+00 00 00 00  00 16 00 00  64 00 00 00  64 00 00 00
+00 00 00 00  00 00 00 00
+
+This can be broken down as follows:
+
+    biSize: 28 00 00 00 (size of the Bitmap Information Header = 40 bytes)
+    biWidth: 00 00 03 20 (image width = 800 pixels)
+    biHeight: 00 00 02 58 (image height = 600 pixels)
+    biPlanes: 01 00 (1 plane)
+    biBitCount: 18 00 (24 bits per pixel)
+    biCompression: 00 00 00 00 (no compression)
+    biSizeImage: 00 16 00 00 (image data size = 1,440,000 bytes)
+    biXPelsPerMeter: 64 00 00 00 (horizontal resolution = 100 pixels per meter)
+    biYPelsPerMeter: 64 00 00 00 (vertical resolution = 100 pixels per meter)
+    biClrUsed: 00 00 00 00 (no specific color palette, full 24-bit color)
+    biClrImportant: 00 00 00 00 (all colors are important)
+
+
+
+DATA
+
+
+
+After the Bitmap Information Header (DIB header), which contains metadata about the image's properties, the next part of a BMP file is typically the Color Table (also known as the Palette) followed by the Pixel Data. These parts of the file depend on the color depth (bits per pixel) of the image and whether or not a color palette is used.  The pixel data is always present in the file and stores the actual image information (color of each pixel). The arrangement and format of this data depend on the image’s color depth.
+
+Size: The size of the pixel data is specified in the Bitmap Information Header by the biSizeImage field. It is calculated as:
+
+    For uncompressed images:
+        Width × Height × (bits per pixel ÷ 8).
+        For example, for a 24-bit BMP image with a resolution of 800x600 pixels, the image data size would be:
+        800 (width)×600 (height)×248=1,440,000 bytes800(width)×600(height)×824​=1,440,000bytes.
+    For compressed images (e.g., using RLE compression), the size of the pixel data may be smaller, and the compression algorithm must be applied to read it.
+
+
+
+
