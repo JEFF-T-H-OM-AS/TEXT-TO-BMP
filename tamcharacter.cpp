@@ -1,4 +1,11 @@
-	#include <iostream>
+
+
+//g++ -o free_program tamcharacter.cpp -lfreetype -lharfbuzz -I /usr/include/freetype2 EasyBMP.cpp -I./easybmp
+// program to create bmp image seperatedly for each tamil character
+
+
+
+       #include <iostream>
 	#include "EasyBMP.h"
 	#include <ft2build.h>
 	#include <harfbuzz/hb.h>
