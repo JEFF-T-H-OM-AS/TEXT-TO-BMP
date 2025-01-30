@@ -1,3 +1,7 @@
+//tamil string to bmp image
+//g++ -o free_program tailstringorr.cpp -lfreetype -lharfbuzz -I /usr/include/freetype2 EasyBMP.cpp -I./easybmp
+
+
 #include <iostream>
 #include "EasyBMP.h"
 #include <ft2build.h>
