@@ -7,7 +7,7 @@
 
 This program converts a text file into a .BMP image. If the image is opened in a text editor, the original text appears.
 
-Written by Adrian Blanco
+
 
 **/
 
